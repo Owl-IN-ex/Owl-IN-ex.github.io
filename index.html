@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07131b">
+  <meta name="color-scheme" content="dark">
+  <title>Owl-IN — Owl-IN ServiceKit</title>
+  <meta name="description" content="Owl-IN ServiceKit — портативная утилита для диагностики и контролируемого восстановления Windows 10/11. Easy Mode и Expert Mode, один EXE без установки.">
+  <meta property="og:title" content="Owl-IN ServiceKit">
+  <meta property="og:description" content="Диагностика Windows и контролируемое восстановление. Easy Mode и Expert Mode.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/hero.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <style>
+    :root{
+      --bg:#061018;
+      --bg2:#091821;
+      --panel:#0b1a23;
+      --panel2:#0d202b;
+      --line:#17313f;
+      --line2:#214556;
+      --text:#eef6fb;
+      --muted:#8ea8b8;
+      --muted2:#647f8f;
+      --blue:#49b5ec;
+      --blue2:#159ae0;
+      --green:#69c596;
+      --shadow:0 22px 70px rgba(0,0,0,.35);
+      --radius:18px;
+      --max:1180px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:radial-gradient(circle at 78% 5%,rgba(32,136,200,.10),transparent 31%),linear-gradient(180deg,#050d13 0,#07131b 34%,#061018 100%);color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif;line-height:1.55}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    img{display:block;max-width:100%}
+    .wrap{width:min(calc(100% - 40px),var(--max));margin:0 auto}
+    .topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(67,119,145,.25);background:rgba(5,13,19,.82);backdrop-filter:blur(16px)}
+    .nav{height:66px;display:flex;align-items:center;gap:28px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:760;letter-spacing:.02em;white-space:nowrap}
+    .brand img{width:34px;height:34px;border-radius:8px}
+    .brand small{color:var(--blue);font-size:.68rem;font-weight:700;margin-left:2px;vertical-align:middle}
+    .links{display:flex;align-items:center;gap:24px;margin-left:auto;color:#a9bfcb;font-size:.92rem}
+    .links a:hover{color:white}
+    .nav-actions{display:flex;gap:10px;margin-left:6px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 16px;border-radius:10px;border:1px solid var(--line2);background:#0b1820;color:#d9e8f0;font-weight:650;transition:.18s ease;cursor:pointer}
+    .btn:hover{transform:translateY(-1px);border-color:#35708d;background:#0d202a}
+    .btn:disabled{cursor:default;opacity:.5;transform:none}
+    .btn.primary{border-color:#188bc4;background:linear-gradient(180deg,#159bdc,#0878b3);color:white;box-shadow:0 10px 30px rgba(20,156,222,.17)}
+    .btn.primary:hover{background:linear-gradient(180deg,#20a9e9,#0784c3)}
+    .menu-btn{display:none;margin-left:auto;width:42px;height:42px;border-radius:9px;border:1px solid var(--line);background:#091720;color:white}
+
+    .hero{padding:32px 0 18px}
+    .hero-banner{position:relative;border:1px solid #173543;border-radius:22px;overflow:hidden;background:#07121a;box-shadow:var(--shadow)}
+    .hero-banner>img{width:100%;height:auto}
+    .hero-mobile{display:none;min-height:660px;position:relative;overflow:hidden;border:1px solid #173543;border-radius:22px;background:#07121a;box-shadow:var(--shadow)}
+    .hero-mobile::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,12,18,.16),rgba(4,12,18,.58) 48%,#061018 90%),url('assets/owl-mobile.jpg') center 4%/cover no-repeat}
+    .hero-mobile .inner{position:relative;z-index:2;display:flex;min-height:660px;flex-direction:column;justify-content:flex-end;padding:34px 26px}
+    .eyebrow{color:var(--blue);font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+    .hero-mobile h1{font-size:clamp(2.6rem,12vw,4.2rem);line-height:.95;margin:10px 0 14px;letter-spacing:-.045em}
+    .hero-mobile p{margin:0 0 20px;color:#b7cad5;font-size:1rem}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:10px}
+
+    section{padding:74px 0}
+    .section-head{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end;margin-bottom:30px}
+    .kicker{color:var(--blue);font-size:.75rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;margin-bottom:9px}
+    h2{font-size:clamp(2rem,4vw,3.15rem);line-height:1.08;letter-spacing:-.035em;margin:0}
+    .section-lead{max-width:650px;color:var(--muted);margin:13px 0 0;font-size:1.05rem}
+    .chips{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
+    .chip{padding:8px 11px;border:1px solid var(--line);border-radius:999px;color:#9ab4c4;background:#08161f;font-size:.78rem}
+
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,rgba(14,32,43,.86),rgba(8,21,29,.88));padding:22px;box-shadow:0 12px 34px rgba(0,0,0,.15)}
+    .card .icon{width:40px;height:40px;display:grid;place-items:center;border:1px solid #24536a;border-radius:11px;background:#0a2130;color:var(--blue);margin-bottom:18px}
+    .card h3{font-size:1.05rem;margin:0 0 7px}
+    .card p{margin:0;color:var(--muted);font-size:.91rem}
+
+    .modes{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .mode{position:relative;min-height:220px;padding:28px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(145deg,#0b1c26,#07141c);overflow:hidden}
+    .mode::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-70px;top:-75px;background:radial-gradient(circle,rgba(73,181,236,.18),transparent 68%)}
+    .mode-label{display:inline-flex;border:1px solid #235069;border-radius:999px;padding:6px 10px;color:var(--blue);font-size:.75rem;font-weight:800;letter-spacing:.05em}
+    .mode h3{font-size:1.65rem;margin:18px 0 7px}
+    .mode p{color:var(--muted);max-width:460px;margin:0}
+
+    .flow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+    .flow-item{position:relative;padding:16px 10px;text-align:center;border-top:1px solid var(--line2);color:#b9ced8;font-size:.82rem}
+    .flow-item strong{display:block;color:white;font-size:.9rem;margin-bottom:3px}
+    .flow-item::before{content:"";width:7px;height:7px;background:var(--blue);border-radius:50%;position:absolute;top:-4px;left:50%;transform:translateX(-50%);box-shadow:0 0 14px rgba(73,181,236,.65)}
+
+    .shot-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .shot{border:1px solid #173845;border-radius:18px;overflow:hidden;background:#07131a;box-shadow:var(--shadow)}
+    .shot img{width:100%;height:auto}
+    .shot-meta{padding:17px 18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;align-items:center}
+    .shot-meta b{font-size:.98rem}
+    .shot-meta span{color:var(--muted2);font-size:.78rem}
+
+    .download-panel{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;border:1px solid #1c4558;border-radius:24px;background:linear-gradient(135deg,#0b2130,#07131a 58%,#0a1d27);padding:30px;box-shadow:var(--shadow)}
+    .download-panel h2{font-size:clamp(2rem,4.4vw,3.2rem)}
+    .download-panel p{color:var(--muted);max-width:640px}
+    .download-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+    .release-box{align-self:stretch;border:1px solid var(--line);border-radius:16px;background:rgba(4,14,21,.54);padding:20px;display:flex;flex-direction:column;justify-content:center}
+    .release-line{display:flex;justify-content:space-between;gap:20px;padding:10px 0;border-bottom:1px solid #152c38;color:#9ab0bd}
+    .release-line:last-child{border-bottom:0}
+    .release-line strong{color:white;text-align:right}
+    .hash{font-family:"Cascadia Code",Consolas,monospace;font-size:.72rem;word-break:break-all;color:#93cfe9;background:#06131b;border:1px solid #173745;border-radius:10px;padding:11px;margin-top:12px}
+    .copy-status{height:19px;margin-top:8px;color:var(--green);font-size:.78rem}
+
+    .faq{display:grid;gap:10px}
+    details{border:1px solid var(--line);border-radius:14px;background:#081720;padding:0 18px}
+    summary{cursor:pointer;font-weight:650;padding:18px 0;list-style:none}
+    summary::-webkit-details-marker{display:none}
+    details p{margin:0 0 18px;color:var(--muted)}
+
+    footer{border-top:1px solid var(--line);margin-top:40px;padding:30px 0 42px;color:#7893a2;font-size:.84rem}
+    .foot{display:flex;justify-content:space-between;gap:24px;align-items:center}
+    .foot a:hover{color:white}
+    .foot-links{display:flex;gap:18px;flex-wrap:wrap}
+
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    @media(max-width:900px){
+      .links{display:none;position:absolute;left:20px;right:20px;top:68px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#07141d;box-shadow:var(--shadow);flex-direction:column;align-items:stretch;gap:0}
+      .links.open{display:flex}
+      .links a{padding:11px 10px;border-bottom:1px solid #102934}
+      .links a:last-child{border-bottom:0}
+      .nav-actions .btn:not(.primary){display:none}
+      .menu-btn{display:grid;place-items:center}
+      .feature-grid{grid-template-columns:1fr 1fr}
+      .flow{grid-template-columns:repeat(3,1fr);row-gap:18px}
+      .download-panel{grid-template-columns:1fr}
+      .section-head{grid-template-columns:1fr}.chips{justify-content:flex-start}
+    }
+    @media(max-width:700px){
+      .wrap{width:min(calc(100% - 24px),var(--max))}
+      .hero{padding-top:16px}
+      .hero-banner{display:none}.hero-mobile{display:block}
+      section{padding:54px 0}
+      .feature-grid,.modes,.shot-grid{grid-template-columns:1fr}
+      .flow{grid-template-columns:1fr 1fr}
+      .shot-meta{align-items:flex-start;flex-direction:column}
+      .download-panel{padding:23px}
+      .nav-actions .primary{padding:0 12px;font-size:.83rem}
+      .brand span{font-size:.92rem}
+      .foot{align-items:flex-start;flex-direction:column}
+    }
+    @media(max-width:430px){
+      .flow{grid-template-columns:1fr}
+      .hero-mobile .inner{padding:26px 20px}
+      .nav{gap:8px}.brand img{width:30px;height:30px}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.btn{transition:none}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Owl-IN">
+        <img src="assets/favicon.png" alt="">
+        <span>Owl-IN <small>ServiceKit</small></span>
+      </a>
+      <nav class="links" id="navLinks">
+        <a href="#features">Возможности</a>
+        <a href="#modes">Режимы</a>
+        <a href="#screens">Скриншоты</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn" href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="btn primary" data-release-download data-release-label href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.0.3/Owl-IN-ServiceKit-1.0.3.exe">Скачать 1.0.3</a>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Открыть меню" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div class="hero-banner">
+        <img src="assets/hero.png" alt="Owl-IN ServiceKit — диагностика Windows и контролируемое восстановление">
+      </div>
+      <div class="hero-mobile">
+        <div class="inner">
+          <div class="eyebrow">Owl-IN</div>
+          <h1>ServiceKit</h1>
+          <p>Диагностика Windows и контролируемое восстановление. Два режима — для быстрого решения проблемы и для подробного технического анализа.</p>
+          <div class="hero-actions">
+            <a class="btn primary" data-release-download data-release-label href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.0.3/Owl-IN-ServiceKit-1.0.3.exe">Скачать 1.0.3</a>
+            <a class="btn" href="#screens">Посмотреть интерфейс</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="features">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">Текущие возможности</div>
+            <h2>Проверить, понять, исправить.</h2>
+            <p class="section-lead">Owl-IN ServiceKit собирает технические данные Windows, объясняет найденное и предлагает доступные действия восстановления там, где их можно выполнить безопасно.</p>
+          </div>
+          <div class="chips">
+            <span class="chip">Windows 10 / 11</span><span class="chip">Один EXE</span><span class="chip">Без установки</span><span class="chip">RU</span>
+          </div>
+        </div>
+        <div class="feature-grid">
+          <article class="card reveal"><div class="icon">⌁</div><h3>Быстрая диагностика</h3><p>Quick Scan и сценарии «У меня проблема» для распространённых проблем Windows.</p></article>
+          <article class="card reveal"><div class="icon">◎</div><h3>Сеть и интернет</h3><p>DNS, прокси, hosts, VPN/TUN, сетевые компоненты и состояние подключения.</p></article>
+          <article class="card reveal"><div class="icon">▣</div><h3>Windows и службы</h3><p>Windows Update, системные службы, автозапуск и события Windows.</p></article>
+          <article class="card reveal"><div class="icon">◫</div><h3>Накопители и память</h3><p>Диагностика накопителей, RAM/BSOD и связанных системных признаков.</p></article>
+          <article class="card reveal"><div class="icon">◇</div><h3>Подозрительная активность</h3><p>Анализ фоновой активности с учётом процессов, путей, подписи и автозапуска.</p></article>
+          <article class="card reveal"><div class="icon">↶</div><h3>Восстановление</h3><p>Резервирование состояния, проверка результата и откат для поддерживаемых действий.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="modes">
+      <div class="wrap">
+        <div class="section-head reveal"><div><div class="kicker">Два режима</div><h2>Один инструмент — разная глубина.</h2><p class="section-lead">Обычному пользователю не нужно читать журналы событий, а техническому специалисту не нужно терять подробности.</p></div></div>
+        <div class="modes">
+          <article class="mode reveal"><span class="mode-label">EASY MODE</span><h3>«У меня проблема»</h3><p>Выберите симптом. Owl-IN ServiceKit проверит связанные компоненты, объяснит результат обычным языком и покажет безопасный следующий шаг.</p></article>
+          <article class="mode reveal"><span class="mode-label">EXPERT MODE</span><h3>Техническая диагностика</h3><p>Конфигурация, сеть, накопители, RAM/BSOD, Windows Update, службы, события, безопасность и RAW-данные без упрощения.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head reveal"><div><div class="kicker">Логика работы</div><h2>Не просто «починить».</h2><p class="section-lead">Действия выстроены вокруг контролируемого изменения системы, а не набора случайных твиков.</p></div></div>
+        <div class="flow reveal">
+          <div class="flow-item"><strong>Обнаружить</strong>собрать данные</div>
+          <div class="flow-item"><strong>Объяснить</strong>показать причину</div>
+          <div class="flow-item"><strong>Сохранить</strong>зафиксировать состояние</div>
+          <div class="flow-item"><strong>Исправить</strong>выполнить действие</div>
+          <div class="flow-item"><strong>Проверить</strong>убедиться в результате</div>
+          <div class="flow-item"><strong>Откатить</strong>вернуть состояние</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screens">
+      <div class="wrap">
+        <div class="section-head reveal"><div><div class="kicker">Реальный интерфейс</div><h2>Easy и Expert без макетов.</h2><p class="section-lead">Ниже — реальные экраны Owl-IN ServiceKit 1.0.3.</p></div></div>
+        <div class="shot-grid">
+          <figure class="shot reveal"><img src="assets/easy-mode.png" alt="Owl-IN ServiceKit Easy Mode — У меня проблема"><figcaption class="shot-meta"><b>Easy Mode — «У меня проблема»</b><span>Понятные сценарии диагностики</span></figcaption></figure>
+          <figure class="shot reveal"><img src="assets/expert-mode.png" alt="Owl-IN ServiceKit Expert Mode — Сеть"><figcaption class="shot-meta"><b>Expert Mode — «Сеть»</b><span>Подробная техническая информация</span></figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="download">
+      <div class="wrap">
+        <div class="download-panel reveal">
+          <div>
+            <div class="kicker">Текущий выпуск</div>
+            <h2 id="releaseTitle">Owl-IN ServiceKit 1.0.3</h2>
+            <p>Портативная Windows-сборка распространяется одним EXE через GitHub Releases. Установка не требуется.</p>
+            <div class="download-actions">
+              <a class="btn primary" data-release-download href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.0.3/Owl-IN-ServiceKit-1.0.3.exe">Скачать EXE</a>
+              <a class="btn" id="releasePage" href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/tag/v1.0.3" target="_blank" rel="noreferrer">Страница релиза</a>
+              <button class="btn" id="copyHash">Копировать SHA-256</button>
+            </div>
+            <div class="copy-status" id="copyStatus" aria-live="polite"></div>
+          </div>
+          <div class="release-box">
+            <div class="release-line"><span>Версия</span><strong id="releaseVersion">1.0.3</strong></div>
+            <div class="release-line"><span>Система</span><strong>Windows 10 / 11</strong></div>
+            <div class="release-line"><span>Формат</span><strong>Portable EXE</strong></div>
+            <div class="release-line" id="releaseSizeLine" hidden><span>Размер</span><strong id="releaseSize"></strong></div>
+            <div class="hash" id="hash">472cc302dd092867ef49af3ea253df418f4377e4ea17a2057ef4b9020ded1d7d</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap">
+        <div class="section-head reveal"><div><div class="kicker">FAQ</div><h2>Коротко о главном.</h2></div></div>
+        <div class="faq">
+          <details class="reveal"><summary>Нужно устанавливать Owl-IN ServiceKit?</summary><p>Нет. Текущий публичный выпуск запускается из одного EXE без отдельной установки.</p></details>
+          <details class="reveal"><summary>Программа сама меняет систему после проверки?</summary><p>Диагностика и изменение состояния разделены. Доступные действия восстановления выполняются отдельно; для поддерживаемых действий используется резервирование, проверка результата и откат.</p></details>
+          <details class="reveal"><summary>Чем Easy Mode отличается от Expert Mode?</summary><p>Easy Mode строится вокруг симптомов и понятного объяснения результата. Expert Mode показывает подробные технические данные и инструменты диагностики.</p></details>
+          <details class="reveal"><summary>Где публикуются новые версии?</summary><p>Официальные публичные сборки размещаются в GitHub Releases репозитория Owl-IN ServiceKit.</p></details>
+          <details class="reveal"><summary>Owl-IN ServiceKit — open source?</summary><p>Нет. Публично доступна релизная сборка и документация проекта; исходный код текущей версии не опубликован.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div>© Owl-IN · Owl-IN ServiceKit <span id="footerVersion">1.0.3</span></div>
+      <div class="foot-links"><a href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit" target="_blank" rel="noreferrer">GitHub</a><a href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases" target="_blank" rel="noreferrer">Releases</a><a href="#top">Наверх ↑</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn=document.getElementById('menuBtn');
+    const navLinks=document.getElementById('navLinks');
+    menuBtn?.addEventListener('click',()=>{
+      const open=navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded',String(open));
+      menuBtn.textContent=open?'×':'☰';
+    });
+    navLinks?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+      navLinks.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false');if(menuBtn)menuBtn.textContent='☰';
+    }));
+
+    const io=('IntersectionObserver' in window)?new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})
+    },{threshold:.08,rootMargin:'0px 0px -35px'}):null;
+    document.querySelectorAll('.reveal').forEach(el=>io?io.observe(el):el.classList.add('visible'));
+
+    const RELEASE_API='https://api.github.com/repos/Owl-IN-ex/Owl-IN-ServiceKit/releases/latest';
+    const RELEASE_CACHE_KEY='owl-in-latest-release-v1';
+    const RELEASE_CACHE_TTL=30*60*1000;
+    let currentHash='472cc302dd092867ef49af3ea253df418f4377e4ea17a2057ef4b9020ded1d7d';
+
+    const cleanVersion=tag=>String(tag||'').replace(/^v/i,'');
+    const formatBytes=bytes=>{
+      if(!Number.isFinite(bytes)||bytes<=0)return '';
+      const units=['Б','КБ','МБ','ГБ'];let value=bytes;let unit=0;
+      while(value>=1024&&unit<units.length-1){value/=1024;unit++}
+      return `${value.toLocaleString('ru-RU',{maximumFractionDigits:unit?1:0})} ${units[unit]}`;
+    };
+    const applyRelease=release=>{
+      const assets=Array.isArray(release?.assets)?release.assets:[];
+      const asset=assets.find(item=>/owl-in.*servicekit.*\.exe$/i.test(item.name))||assets.find(item=>/\.exe$/i.test(item.name));
+      const version=cleanVersion(release?.tag_name);
+      if(!asset?.browser_download_url||!version||!release?.html_url)return false;
+
+      document.querySelectorAll('[data-release-download]').forEach(link=>link.href=asset.browser_download_url);
+      document.querySelectorAll('[data-release-label]').forEach(link=>link.textContent=`Скачать ${version}`);
+      document.getElementById('releaseTitle').textContent=`Owl-IN ServiceKit ${version}`;
+      document.getElementById('releaseVersion').textContent=version;
+      document.getElementById('footerVersion').textContent=version;
+      document.getElementById('releasePage').href=release.html_url;
+
+      const size=formatBytes(asset.size);
+      if(size){document.getElementById('releaseSize').textContent=size;document.getElementById('releaseSizeLine').hidden=false}
+
+      const digest=String(asset.digest||'').replace(/^sha256:/i,'').toLowerCase();
+      const hashElement=document.getElementById('hash');
+      const copyButton=document.getElementById('copyHash');
+      if(/^[a-f0-9]{64}$/.test(digest)){
+        currentHash=digest;hashElement.textContent=digest;copyButton.disabled=false;copyButton.hidden=false;
+      }else if(version!=='1.0.3'){
+        currentHash='';hashElement.textContent='SHA-256 не опубликован';copyButton.disabled=true;copyButton.hidden=true;
+      }
+      return true;
+    };
+    const syncLatestRelease=async()=>{
+      try{
+        const cached=JSON.parse(localStorage.getItem(RELEASE_CACHE_KEY)||'null');
+        if(cached?.savedAt&&Date.now()-cached.savedAt<RELEASE_CACHE_TTL&&applyRelease(cached.release))return;
+      }catch(e){}
+      try{
+        const controller=new AbortController();
+        const timer=setTimeout(()=>controller.abort(),6500);
+        const response=await fetch(RELEASE_API,{headers:{Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2026-03-10'},signal:controller.signal});
+        clearTimeout(timer);
+        if(!response.ok)throw new Error(`GitHub API: ${response.status}`);
+        const release=await response.json();
+        if(applyRelease(release)){
+          try{localStorage.setItem(RELEASE_CACHE_KEY,JSON.stringify({savedAt:Date.now(),release}))}catch(e){}
+        }
+      }catch(e){/* При ошибке остаётся полностью рабочая резервная версия 1.0.3. */}
+    };
+    syncLatestRelease();
+
+    document.getElementById('copyHash')?.addEventListener('click',async()=>{
+      const status=document.getElementById('copyStatus');
+      if(!currentHash)return;
+      try{
+        if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(currentHash)}
+        else{
+          const t=document.createElement('textarea');t.value=currentHash;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();
+        }
+        status.textContent='SHA-256 скопирован';setTimeout(()=>status.textContent='',2200);
+      }catch(e){status.textContent='Не удалось скопировать — выделите хэш вручную';}
+    });
+  </script>
+</body>
+</html>
