@@ -1,4 +1,4 @@
-1.0.3  1.0.1.0.3  1.0.4<!doctype html>
+<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="utf-8">
@@ -170,7 +170,7 @@
       </nav>
       <div class="nav-actions">
         <a class="btn" href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="btn primary" data-release-download data-release-label href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.0.3/Owl-IN-ServiceKit-1.0.3.exe">Скачать 1.0.3</a>
+        <a class="btn primary" data-release-download data-release-label href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.0.4/Owl-IN-ServiceKit-1.0.4.exe">Скачать 1.0.4</a>
       </div>
       <button class="menu-btn" id="menuBtn" aria-label="Открыть меню" aria-expanded="false">☰</button>
     </div>
@@ -187,7 +187,7 @@
           <h1>ServiceKit</h1>
           <p>Диагностика Windows и контролируемое восстановление. Два режима — для быстрого решения проблемы и для подробного технического анализа.</p>
           <div class="hero-actions">
-            <a class="btn primary" data-release-download data-release-label href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.0.3/Owl-IN-ServiceKit-1.0.3.exe">Скачать 1.0.3</a>
+            <a class="btn primary" data-release-download data-release-label href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.0.4/Owl-IN-ServiceKit-1.0.4.exe">Скачать 1.0.4</a>
             <a class="btn" href="#screens">Посмотреть интерфейс</a>
           </div>
         </div>
@@ -243,7 +243,7 @@
 
     <section id="screens">
       <div class="wrap">
-        <div class="section-head reveal"><div><div class="kicker">Реальный интерфейс</div><h2>Easy и Expert без макетов.</h2><p class="section-lead">Ниже — реальные экраны Owl-IN ServiceKit 1.0.3.</p></div></div>
+        <div class="section-head reveal"><div><div class="kicker">Реальный интерфейс</div><h2>Easy и Expert без макетов.</h2><p class="section-lead">Ниже — реальные экраны Owl-IN ServiceKit.</p></div></div>
         <div class="shot-grid">
           <figure class="shot reveal"><img src="assets/easy-mode.png" alt="Owl-IN ServiceKit Easy Mode — У меня проблема"><figcaption class="shot-meta"><b>Easy Mode — «У меня проблема»</b><span>Понятные сценарии диагностики</span></figcaption></figure>
           <figure class="shot reveal"><img src="assets/expert-mode.png" alt="Owl-IN ServiceKit Expert Mode — Сеть"><figcaption class="shot-meta"><b>Expert Mode — «Сеть»</b><span>Подробная техническая информация</span></figcaption></figure>
@@ -256,17 +256,17 @@
         <div class="download-panel reveal">
           <div>
             <div class="kicker">Текущий выпуск</div>
-            <h2 id="releaseTitle">Owl-IN ServiceKit 1.0.3</h2>
+            <h2 id="releaseTitle">Owl-IN ServiceKit 1.0.4</h2>
             <p>Портативная Windows-сборка распространяется одним EXE через GitHub Releases. Установка не требуется.</p>
             <div class="download-actions">
-              <a class="btn primary" data-release-download href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.0.3/Owl-IN-ServiceKit-1.0.3.exe">Скачать EXE</a>
-              <a class="btn" id="releasePage" href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/tag/v1.0.3" target="_blank" rel="noreferrer">Страница релиза</a>
+              <a class="btn primary" data-release-download href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.0.4/Owl-IN-ServiceKit-1.0.4.exe">Скачать EXE</a>
+              <a class="btn" id="releasePage" href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/tag/v1.0.4" target="_blank" rel="noreferrer">Страница релиза</a>
               <button class="btn" id="copyHash">Копировать SHA-256</button>
             </div>
             <div class="copy-status" id="copyStatus" aria-live="polite"></div>
           </div>
           <div class="release-box">
-            <div class="release-line"><span>Версия</span><strong id="releaseVersion">1.0.3</strong></div>
+            <div class="release-line"><span>Версия</span><strong id="releaseVersion">1.0.4</strong></div>
             <div class="release-line"><span>Система</span><strong>Windows 10 / 11</strong></div>
             <div class="release-line"><span>Формат</span><strong>Portable EXE</strong></div>
             <div class="release-line" id="releaseSizeLine" hidden><span>Размер</span><strong id="releaseSize"></strong></div>
@@ -292,7 +292,7 @@
 
   <footer>
     <div class="wrap foot">
-      <div>© Owl-IN · Owl-IN ServiceKit <span id="footerVersion">1.0.3</span></div>
+      <div>© Owl-IN · Owl-IN ServiceKit <span id="footerVersion">1.0.4</span></div>
       <div class="foot-links"><a href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit" target="_blank" rel="noreferrer">GitHub</a><a href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases" target="_blank" rel="noreferrer">Releases</a><a href="#top">Наверх ↑</a></div>
     </div>
   </footer>
@@ -347,7 +347,7 @@
       const copyButton=document.getElementById('copyHash');
       if(/^[a-f0-9]{64}$/.test(digest)){
         currentHash=digest;hashElement.textContent=digest;copyButton.disabled=false;copyButton.hidden=false;
-      }else if(version!=='1.0.3'){
+      }else if(version!=='1.0.4'){
         currentHash='';hashElement.textContent='SHA-256 не опубликован';copyButton.disabled=true;copyButton.hidden=true;
       }
       return true;
@@ -367,7 +367,7 @@
         if(applyRelease(release)){
           try{localStorage.setItem(RELEASE_CACHE_KEY,JSON.stringify({savedAt:Date.now(),release}))}catch(e){}
         }
-      }catch(e){/* При ошибке остаётся полностью рабочая резервная версия 1.0.3. */}
+      }catch(e){/* При ошибке остаётся полностью рабочая резервная версия 1.0.4. */}
     };
     syncLatestRelease();
 
