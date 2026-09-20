@@ -9,4 +9,4 @@ Owl-IN website — local preview
 Текущие внешние ссылки:
 - GitHub: https://github.com/Owl-IN-ex/Owl-IN-ServiceKit
 - Latest stable release API: https://api.github.com/repos/Owl-IN-ex/Owl-IN-ServiceKit/releases/latest
-- Резервный релиз 1.0.3: https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/tag/v1.0.3
+- Резервный релиз 1.0.3: https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/tag/v1.0.31.0.3  1.0.4
