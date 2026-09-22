@@ -1,9 +1,9 @@
 {
   "product": "Owl-IN ServiceKit",
-  "version": "1.0.4",
-  "tag": "v1.0.4",
-  "releaseUrl": "https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/tag/v1.0.4",
-  "downloadUrl": "https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.0.4/Owl-IN-ServiceKit-1.0.4.exe",
-  "sha256": "f11c27be40cb61e4486b182826841f5c27b5a844c6a091163f51fcf5d722b8c6",
-  "publishedAt": "2026-09-20T15:39:11Z"
+  "version": "1.1.0",
+  "tag": "v1.1.0",
+  "releaseUrl": "https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/tag/v1.1.0",
+  "downloadUrl": "https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.1.0/Owl-IN-ServiceKit-1.1.0.exe",
+  "sha256": "6b913b3a2d9d04e2a83ed535baa5a2f101b87763340b84eb45019acc5e7ea9b4",
+  "publishedAt": "2026-09-22T23:00:07Z"
 }
