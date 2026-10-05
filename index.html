@@ -170,7 +170,7 @@
       </nav>
       <div class="nav-actions">
         <a class="btn" href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="btn primary" data-release-download data-release-label href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.2.0/Owl-IN-ServiceKit-1.2.0.exe">Скачать 1.2.0</a>
+        <a class="btn primary" data-release-download data-release-label href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.2.1/Owl-IN-ServiceKit-1.2.1.exe">Скачать 1.2.1</a>
       </div>
       <button class="menu-btn" id="menuBtn" aria-label="Открыть меню" aria-expanded="false">☰</button>
     </div>
@@ -187,7 +187,7 @@
           <h1>ServiceKit</h1>
           <p>Диагностика Windows и контролируемое восстановление. Два режима — для быстрого решения проблемы и для подробного технического анализа.</p>
           <div class="hero-actions">
-            <a class="btn primary" data-release-download data-release-label href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.2.0/Owl-IN-ServiceKit-1.2.0.exe">Скачать 1.2.0</a>
+            <a class="btn primary" data-release-download data-release-label href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.2.1/Owl-IN-ServiceKit-1.2.1.exe">Скачать 1.2.1</a>
             <a class="btn" href="#screens">Посмотреть интерфейс</a>
           </div>
         </div>
@@ -256,17 +256,17 @@
         <div class="download-panel reveal">
           <div>
             <div class="kicker">Текущий выпуск</div>
-            <h2 id="releaseTitle">Owl-IN ServiceKit 1.2.0</h2>
+            <h2 id="releaseTitle">Owl-IN ServiceKit 1.2.1</h2>
             <p>Портативная Windows-сборка распространяется одним EXE через GitHub Releases. Установка не требуется.</p>
             <div class="download-actions">
-              <a class="btn primary" data-release-download href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.2.0/Owl-IN-ServiceKit-1.2.0.exe">Скачать EXE</a>
-              <a class="btn" id="releasePage" href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/tag/v1.2.0" target="_blank" rel="noreferrer">Страница релиза</a>
+              <a class="btn primary" data-release-download href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/download/v1.2.1/Owl-IN-ServiceKit-1.2.1.exe">Скачать EXE</a>
+              <a class="btn" id="releasePage" href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases/tag/v1.2.1" target="_blank" rel="noreferrer">Страница релиза</a>
               <button class="btn" id="copyHash">Копировать SHA-256</button>
             </div>
             <div class="copy-status" id="copyStatus" aria-live="polite"></div>
           </div>
           <div class="release-box">
-            <div class="release-line"><span>Версия</span><strong id="releaseVersion">1.2.0</strong></div>
+            <div class="release-line"><span>Версия</span><strong id="releaseVersion">1.2.1</strong></div>
             <div class="release-line"><span>Система</span><strong>Windows 10 / 11</strong></div>
             <div class="release-line"><span>Формат</span><strong>Portable EXE</strong></div>
             <div class="release-line" id="releaseSizeLine" hidden><span>Размер</span><strong id="releaseSize"></strong></div>
@@ -292,7 +292,7 @@
 
   <footer>
     <div class="wrap foot">
-      <div>© Owl-IN · Owl-IN ServiceKit <span id="footerVersion">1.2.0</span></div>
+      <div>© Owl-IN · Owl-IN ServiceKit <span id="footerVersion">1.2.1</span></div>
       <div class="foot-links"><a href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit" target="_blank" rel="noreferrer">GitHub</a><a href="https://github.com/Owl-IN-ex/Owl-IN-ServiceKit/releases" target="_blank" rel="noreferrer">Releases</a><a href="#top">Наверх ↑</a></div>
     </div>
   </footer>
@@ -315,8 +315,17 @@
     document.querySelectorAll('.reveal').forEach(el=>io?io.observe(el):el.classList.add('visible'));
 
     const RELEASE_API='https://api.github.com/repos/Owl-IN-ex/Owl-IN-ServiceKit/releases/latest';
-    const RELEASE_CACHE_KEY='owl-in-latest-release-v2';
-    let currentHash='8091e8e92416c9ff2f5f2e8b9bc57e483b894c5750d20c74ba2328b3fb33001d';
+    const RELEASE_CACHE_KEY='owl-in-latest-release-v3';
+    let displayedVersion=document.getElementById('releaseVersion').textContent.trim();
+    const compareVersions=(a,b)=>{
+      const left=cleanVersion(a).split('.').map(Number);
+      const right=cleanVersion(b).split('.').map(Number);
+      for(let i=0;i<Math.max(left.length,right.length);i++){
+        const delta=(left[i]||0)-(right[i]||0);if(delta)return Math.sign(delta);
+      }
+      return 0;
+    };
+    let currentHash='f051f13315c9dd76aeb25e57255607cae498b09203e580080e8812ef5abebc66';
 
     const cleanVersion=tag=>String(tag||'').replace(/^v/i,'');
     const formatBytes=bytes=>{
@@ -329,7 +338,9 @@
       const assets=Array.isArray(release?.assets)?release.assets:[];
       const asset=assets.find(item=>/owl-in.*servicekit.*\.exe$/i.test(item.name))||assets.find(item=>/\.exe$/i.test(item.name));
       const version=cleanVersion(release?.tag_name);
-      if(!asset?.browser_download_url||!version||!release?.html_url)return false;
+      if(!asset?.browser_download_url||!/^\d+\.\d+\.\d+$/.test(version)||!release?.html_url)return false;
+      if(compareVersions(version,displayedVersion)<0)return false;
+      displayedVersion=version;
 
       document.querySelectorAll('[data-release-download]').forEach(link=>link.href=asset.browser_download_url);
       document.querySelectorAll('[data-release-label]').forEach(link=>link.textContent=`Скачать ${version}`);
@@ -346,29 +357,41 @@
       const copyButton=document.getElementById('copyHash');
       if(/^[a-f0-9]{64}$/.test(digest)){
         currentHash=digest;hashElement.textContent=digest;copyButton.disabled=false;copyButton.hidden=false;
-      }else if(version!=='1.2.0'){
+      }else{
         currentHash='';hashElement.textContent='SHA-256 не опубликован';copyButton.disabled=true;copyButton.hidden=true;
       }
       return true;
+    };
+    const manifestRelease=data=>({
+      tag_name:data.tag||data.version,
+      html_url:data.releaseUrl,
+      assets:[{name:'Owl-IN-ServiceKit.exe',browser_download_url:data.downloadUrl,
+        size:data.size,digest:data.sha256?`sha256:${data.sha256}`:''}]
+    });
+    const fetchRelease=async(url,isManifest=false)=>{
+      const controller=new AbortController();
+      const timer=setTimeout(()=>controller.abort(),6500);
+      try{
+        const response=await fetch(`${url}?t=${Date.now()}`,{cache:'no-store',signal:controller.signal});
+        if(!response.ok)throw new Error(`Release source: ${response.status}`);
+        const data=await response.json();
+        const release=isManifest?manifestRelease(data):data;
+        if(applyRelease(release)){
+          try{localStorage.setItem(RELEASE_CACHE_KEY,JSON.stringify({savedAt:Date.now(),release}))}catch(e){}
+        }
+      }catch(e){/* Keep the validated release embedded in the deployed page. */}
+      finally{clearTimeout(timer)}
     };
     const syncLatestRelease=async()=>{
       try{
         const cached=JSON.parse(localStorage.getItem(RELEASE_CACHE_KEY)||'null');
         if(cached?.release)applyRelease(cached.release);
       }catch(e){}
-      try{
-        const controller=new AbortController();
-        const timer=setTimeout(()=>controller.abort(),6500);
-        const response=await fetch(`${RELEASE_API}?t=${Date.now()}`,{cache:'no-store',headers:{Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2026-03-10'},signal:controller.signal});
-        clearTimeout(timer);
-        if(!response.ok)throw new Error(`GitHub API: ${response.status}`);
-        const release=await response.json();
-        if(applyRelease(release)){
-          try{localStorage.setItem(RELEASE_CACHE_KEY,JSON.stringify({savedAt:Date.now(),release}))}catch(e){}
-        }
-      }catch(e){/* При ошибке остаётся полностью рабочая резервная версия 1.2.0. */}
+      // Same-origin metadata works even when GitHub API is unreachable in the browser.
+      await Promise.allSettled([fetchRelease('./release.json',true),fetchRelease(RELEASE_API)]);
     };
     syncLatestRelease();
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncLatestRelease()});
 
     document.getElementById('copyHash')?.addEventListener('click',async()=>{
       const status=document.getElementById('copyStatus');

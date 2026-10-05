@@ -1,0 +1,46 @@
+name: Sync latest release and deploy Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.sync.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Sync stable release metadata
+        id: sync
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/sync-release.py
+      - uses: actions/configure-pages@v5
+        if: steps.sync.outputs.changed == 'true'
+      - uses: actions/upload-pages-artifact@v4
+        if: steps.sync.outputs.changed == 'true'
+        with:
+          path: _site
+  deploy:
+    if: needs.build.outputs.changed == 'true'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
