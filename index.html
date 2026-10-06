@@ -401,8 +401,18 @@
       await Promise.allSettled([fetchRelease('./release.json',true),fetchRelease(RELEASE_API)]);
     };
     syncLatestRelease();
-    document.querySelectorAll('[data-release-download]').forEach(link=>link.addEventListener('click',()=>{
-      if(typeof window.ym==='function')window.ym(113502722,'reachGoal','download_exe');
+    document.querySelectorAll('[data-release-download]').forEach(link=>link.addEventListener('click',event=>{
+      if(typeof window.ym!=='function'||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+      event.preventDefault();
+      const href=link.href;
+      let navigationStarted=false;
+      const continueDownload=()=>{
+        if(navigationStarted)return;
+        navigationStarted=true;
+        window.location.href=href;
+      };
+      window.ym(113502722,'reachGoal','download_exe',{},continueDownload);
+      setTimeout(continueDownload,800);
     }));
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncLatestRelease()});
 
