@@ -3,6 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Yandex.Metrika counter -->
+  <script>
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r)return}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=113502722','ym');
+    ym(113502722,'init',{ssr:true,clickmap:true,ecommerce:'dataLayer',accurateTrackBounce:true,trackLinks:true});
+  </script>
+  <!-- /Yandex.Metrika counter -->
   <meta name="theme-color" content="#07131b">
   <meta name="color-scheme" content="dark">
   <title>Owl-IN — Owl-IN ServiceKit</title>
@@ -156,6 +165,7 @@
   </style>
 </head>
 <body>
+  <noscript><div><img src="https://mc.yandex.ru/watch/113502722" style="position:absolute;left:-9999px" alt=""></div></noscript>
   <header class="topbar">
     <div class="wrap nav">
       <a class="brand" href="#top" aria-label="Owl-IN">
@@ -391,6 +401,9 @@
       await Promise.allSettled([fetchRelease('./release.json',true),fetchRelease(RELEASE_API)]);
     };
     syncLatestRelease();
+    document.querySelectorAll('[data-release-download]').forEach(link=>link.addEventListener('click',()=>{
+      if(typeof window.ym==='function')window.ym(113502722,'reachGoal','download_exe');
+    }));
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncLatestRelease()});
 
     document.getElementById('copyHash')?.addEventListener('click',async()=>{
