@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://owl-in-ex.github.io/sitemap.xml
