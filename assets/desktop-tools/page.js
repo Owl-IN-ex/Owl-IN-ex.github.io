@@ -1,0 +1,8 @@
+
+const menu=document.getElementById('menuBtn'),nav=document.getElementById('navLinks');
+menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.textContent=open?'×':'☰'});
+nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded','false');menu.textContent='☰'}));
+const topButton=document.getElementById('toTop');const syncTop=()=>topButton.classList.toggle('visible',scrollY>520);addEventListener('scroll',syncTop,{passive:true});topButton.addEventListener('click',()=>scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}));syncTop();
+const views={notes:{file:'notepad-notes.png',text:'Заметки — текст с переносом по ширине окна.'},code:{file:'notepad-code.png',text:'Код — подсветка синтаксиса и номера строк.'}};
+document.querySelectorAll('[data-shot]').forEach(button=>button.addEventListener('click',()=>{const view=views[button.dataset.shot];document.querySelectorAll('[data-shot]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));document.getElementById('editorShot').src='../assets/desktop-tools/'+view.file;document.getElementById('editorShot').alt=view.text;document.getElementById('shotLink').href='../assets/desktop-tools/'+view.file;document.getElementById('shotCaption').textContent=view.text}));
+document.querySelectorAll('[data-tools-download]').forEach(link=>link.addEventListener('click',()=>{if(typeof window.ym==='function')window.ym(113502722,'reachGoal','download_desktop_tools',{product:'desktop-tools',format:'zip'})}));

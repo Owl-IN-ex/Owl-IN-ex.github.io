@@ -43,6 +43,11 @@ def main():
     (output / 'release.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     (output / '.nojekyll').touch()
     shutil.copytree('assets', output / 'assets', dirs_exist_ok=True)
+    for directory in ('desktop-tools', 'downloads'):
+        shutil.copytree(directory, output / directory, dirs_exist_ok=True)
+    for filename in ('sitemap.xml', 'robots.txt'):
+        if pathlib.Path(filename).is_file():
+            shutil.copy2(filename, output / filename)
     changed = True
     if os.environ.get('GITHUB_EVENT_NAME') == 'schedule':
         try:
@@ -57,3 +62,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
